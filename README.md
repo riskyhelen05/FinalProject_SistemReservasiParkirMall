@@ -5,21 +5,70 @@ Sistem informasi ini dirancang untuk memudahkan proses pemesanan slot parkir di 
 ---
 
 ## 🔑 Fitur Utama
+## 🏗️ Manajemen Data Master
 
-- **Reservasi Slot Parkir Otomatis**  
-  Pengguna dapat memilih slot parkir berdasarkan lantai dan gedung.
+Menyimpan dan mengelola data pengguna, gedung, lantai gedung, slot parkir, kendaraan, dan tarif parkir.
 
-- **Validasi Slot dan Kendaraan**  
-  Slot yang sudah dipesan otomatis diblokir oleh sistem menggunakan trigger.
+Sistem validasi bawaan untuk menjaga integritas relasi antar data (misalnya gedung ↔ lantai ↔ slot).
 
-- **Check-In dan Check-Out**  
-  Sistem mencatat waktu masuk dan keluar kendaraan, serta mengatur status slot secara otomatis.
+## 📅 Reservasi Slot Parkir
+Pengguna dapat melihat slot kosong berdasarkan lantai dan jenis kendaraan.
 
-- **Hitung Tarif & Pembayaran Otomatis**  
-  Menggunakan stored procedure untuk perhitungan biaya berdasarkan waktu parkir.
+Melakukan reservasi slot dengan sistem otomatis yang akan mengubah status slot ke “reservasi”.
 
-- **Laporan & Statistik**  
-  Menampilkan laporan harian, bulanan, rekap transaksi, dan pengguna aktif.
+Sistem mencegah reservasi ganda dengan trigger bawaan.
+
+## 🚗 Log Aktivitas Parkir (Masuk/Keluar)
+Sistem mencatat waktu masuk dan keluar kendaraan ke dalam log parkir.
+
+Slot yang sedang dipakai akan otomatis ditandai sebagai "terisi".
+
+Kendaraan tidak bisa masuk dua kali sebelum keluar (dicegah via trigger).
+
+## 💳 Pembayaran Otomatis
+Sistem akan menghitung total biaya berdasarkan:
+
+Durasi parkir
+
+Tarif berdasarkan jenis slot dan lantai
+
+Pembayaran dapat dilakukan secara otomatis melalui stored procedure yang menghitung dan menyimpan transaksi.
+
+## 📊 Laporan & Statistik
+Menyediakan laporan berupa:
+
+Statistik harian (jumlah transaksi dan pendapatan)
+
+Statistik bulanan
+
+Slot parkir aktif, kosong, terisi per lantai
+
+Laporan tersedia dalam bentuk view SQL siap pakai dan bisa diekspor.
+
+## 🧠 Trigger & Validasi Otomatis
+Sistem menggunakan trigger MySQL untuk:
+
+Mengubah status slot saat reservasi/check-out
+
+Mencegah kendaraan dan slot digunakan lebih dari satu kali secara bersamaan
+
+Menjaga konsistensi data log dan reservasi
+
+## 👁 View & Laporan Canggih
+View SQL siap digunakan oleh antarmuka aplikasi dan backend:
+
+view_status_slot_per_lantai
+
+view_log_parkir_lengkap
+
+view_reservasi_aktif
+
+view_laporan_transaksi_pengguna
+
+Laporan lanjutan menggunakan Crosstab, CTE, dan Subquery untuk analisis data yang lebih dalam.
+
+## 📤 Ekspor CSV
+Data log parkir dan pembayaran dapat diekspor ke file CSV menggunakan query SELECT dan tools seperti DBeaver atau MySQL Workbench.
 
 ---
 
